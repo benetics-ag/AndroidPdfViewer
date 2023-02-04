@@ -200,7 +200,7 @@ public class PDFView extends RelativeLayout {
 
     private boolean fitEachPage = false;
 
-    private int defaultPage = 0;
+    protected int defaultPage = 0;
 
     private boolean dualPageMode = false;
 
@@ -829,7 +829,12 @@ public class PDFView extends RelativeLayout {
 
         callbacks.callOnLoadComplete(pdfFile.getPagesCount());
 
-        jumpTo(defaultPage, false);
+        // On load, we might want to zoom and pan to a specific location on the 
+        // page. Thus, disable the jumpTo call after firing the onLoad callback.
+        // In case we don't navigate to a custom viewport, the callback has to
+        // make the jumpTo(defaultPage, false) call. Otherwise, the page stays
+        // blank.
+        // jumpTo(defaultPage, false);
     }
 
     void loadError(Throwable t) {
